@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+    text-align: center;
+}
+/* root and utility*/
+
+:root {
+    --pure-black: #000;
+    
+}
+.font-1{
+    font-size: clamp(1em, 1.5em, 2em);
+}
+.font-2{
+    font-size: clamp(1em, 1.3em, 1.5em);
+}
+.font-3{
+    font-size: clamp(60px, 10vw, 100px);
+}
+
+.btn-1{
+    width: clamp(80px, 12vw, 140px);
+    font-size: clamp(1em, 1.3em, 2em);
+    
+    border-radius: 20px;
+    padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 20px);
+}
+.btn-2{
+    width: clamp(80px, 10vw, 100px);
+    font-size: clamp(1em, 1.3em, 2em);
+    border-radius: 20px;
+    padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 20px);
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    font-size: clamp(10px, 4vw, 20px);
+
+}
+.wrapper{
+    margin: auto;
+
+    width: 90vw;
+    max-width: 960px;
+
+    padding: 0px 4vw;
+    border: 1px solid #000;
+    border-radius: 20px;
+}
+
+/* header */
+.header{
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid #000;
+    border-radius: 20px;
+}
+
+/* battery-box */
+.battery-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 20px);
+    font-size: clamp(1em, 1.2em, 1.4em);
+}
+.battery-box__remaining {
+    --battery-width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    border-radius: 5%;
+    border: 1px solid #000;
+    padding: clamp(6px, 1vw, 5px) clamp(10px, 2vw, 10px);
+    position: relative;
+    z-index: 1;
+}
+.battery-box__remaining::after{
+    --position-right: 6%;
+    display: block;
+    content: "";
+    width: 5%;
+    height: 20%;
+    right: calc(0% - var(--position-right));
+    top:  40%;
+    position: absolute;
+    
+    border-radius: 5%;
+    border: 0.5px solid #000;
+}
+.battery-box__remaining::before{
+    --border-width: 10px;
+    display: block;
+    content:"";
+    background-color: rgb(34, 232, 34);
+    position: absolute;
+    left: 10%;
+    width: var(--battery-width);
+    height: 80%;
+
+    transition: width 0.5s ease, background-color 0.5s ease;
+    z-index: -1;
+}
+.battery-box__remaining.low::before{
+    background-color: #f44336;
+}
+
+/* button-tab */
+.tab{
+    padding: clamp(10px, 2vw, 15px) 0;
+
+    display: flex;
+    gap: 2vw;
+}
+
+.tab-btn:hover{
+    background-color: azure;
+}
+.tab-btn:active{
+
+}
+
