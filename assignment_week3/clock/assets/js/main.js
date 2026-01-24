@@ -20,13 +20,8 @@ window.addEventListener("DOMContentLoaded", () => {initClock();});
 async function initClock(){
     await renderContents("clock");
     updateClockUI();
-    console.log("render success");
-
     startClockTic();
-    console.log("clockTic success");
-
     setupEventListeners();
-    console.log("eventListner setup success")
 }
 
 async function setupEventListeners(){
@@ -43,25 +38,16 @@ async function setupEventListeners(){
         const action = target.dataset.action;
         switch(action){
             case "save-alarm": 
-                handleAlarmEvents(action);
+                handleAlarmEvents(action, target);
                 break;
             case "delete-alarm":
-                handleAlarmEvents(action);
-                break;
-            case "start-timer":
-                handleTimerEvents(action)
-                break;
-            case "pause-timer":
-                handleTimerEvents(action)
-                break;
-            case "reset-timer":
-                handleTimerEvents(action)
+                handleAlarmEvents(action, target);
                 break;
         }
     })
 }
 
-function handleAlarmEvents(action){
+function handleAlarmEvents(action, target){
     if(action === "save-alarm"){
         const noon = document.querySelector("#edit-noon").value;
         const hour = document.querySelector("#edit-hour").value;
@@ -78,13 +64,32 @@ function handleAlarmEvents(action){
         }
     }
 
-    if(action === "delete-alarm")[
+    if(action === "delete-alarm"){
+        const section = target.closest(".alarm-section");
+        const alarmId = Number(section.dataset.id);
 
-    ]
+        alarmManager.deleteAlarm(alarmId);
+        console.log(alarmManager.alarmSlot);
+        renderAlarmUI(action);
+    }
 }
 
+function renderAlarmUI(){
+    if(clockInfo.currentMode !== "alarm") return;
 
-function handleTimerEvents(action){}
+    const alarmSection = document.querySelectorAll(".alarm-section");
+    alarmSection.forEach((section, index) => {
+        alarmSection[index].style.display = "none";
+    }); 
+    const alarms = alarmManager.getAllAlarms();
+
+    alarms.forEach((alarm, index) => {
+        const section = alarmSection[index];
+        section.style.display = "block";
+        section.dataset.id = alarm.id;
+        section.querySelector(".alarm-container-main__time").innerText = alarm.time;
+    });
+}
 
 async function renderContents(pageMode){
 
@@ -96,6 +101,8 @@ async function renderContents(pageMode){
         if(!response.ok) throw new Error('파일을 찾을 수 없습니다.');
         const html = await response.text();
         contentArea.innerHTML = html;
+
+        if(pageMode === "alarm") renderAlarmUI();
     }
     catch(error){
         console:error('rendering error: ', error);
@@ -103,16 +110,31 @@ async function renderContents(pageMode){
 }
 
 function startClockTic(){
-    const clockTic = setInterval(() =>{
+    const intervalId = setInterval(() =>{
         if(clockInfo.battery > 0){
             clockInfo.battery -= 1;
             updateBatteryUI();
-            updateClockUI();
+            if(clockInfo.currentMode === "clock"){
+                updateClockUI();
+            }
+            checkTimeWithAlarm();
         }
         else{
-            drainedBattery();
+            drainedBattery(intervalId);
         }
     }, 1000);
+}
+
+function checkTimeWithAlarm(){
+    const now = clock.getCurrentTime().substring(0,5);
+    const ringingAlarm = alarmManager.checkAlarms(now);
+
+    if(ringingAlarm){
+        ringingAlarm.isRinging = true;
+        alert(`[알람] ${ringingAlarm.time} 입니다!`);
+    }
+    console.log(now);
+    console.log(ringingAlarm);
 }
 
 function updateBatteryUI(){
@@ -136,34 +158,15 @@ function updateClockUI(){
     timeContents.innerText = currentTime;
 }
 
-function drainedBattery(){
+function drainedBattery(intervalId){
     clockInfo.isDead = true;
-    alert("Battery is dead. please reload the page.");
+    clearInterval(intervalId);
+    blackoutScreen();
+    // alert("Battery is dead. please reload the page.");
+
+
 }
-
-
-
-/*
-    렌더링 이벤트 유형
-    - 매초 시간 업데이트 -> 시간(초) / 베터리 감소
-    - 버튼 입력 이벤트 시 업데이트
-    - 사용자 입력 이벤트 시 업데이트
-
-    이벤트 핸들러 -> 각종 이벤트 및 함수들 연결, 관리
-
-    이벤트 발생 시 처리할 동작들
-    - 버튼 입력 시
-        -- 페이지 렌더링
-        -- 알람 --
-        -- 알람 시간 입력
-        -- 알람 등록(등록 버튼)
-        -- 알람 삭제(삭제 버튼)
-        -- 타이머 --
-        -- 타이머 시간 입력
-        -- 타이머 시작
-        -- 타이머 정지
-        -- 타이머 재시작
-        -- 타이머 초기화
-
-    - 
-*/
+function blackoutScreen(){
+    const screen = document.querySelector(".inner");
+    screen.classList.add("dead");
+}

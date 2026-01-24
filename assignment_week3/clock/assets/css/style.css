@@ -6,30 +6,41 @@
 
 :root {
     --pure-black: #000;
+    --fresh-cream: #f4efe6;
+    --forest-green: #496355;
+    --cloud-white: #FEFCF6;
+    --storm-cloud: #686867;
     
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
 }
 .font-1{
     font-size: clamp(1em, 1.5em, 2em);
 }
 .font-2{
-    font-size: clamp(1em, 1.3em, 1.5em);
+    font-size: clamp(1em, 1.3em, 2em);
 }
 .font-3{
     font-size: clamp(60px, 10vw, 100px);
 }
+.btn{
+    background-color: var(--fresh-cream);
+    padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 20px);
+    border-radius: 20px;
+    border: none;
+}
+.btn:hover, .btn:active, .tab-btn:focus{
+    background-color: #dddbd7ec;
+}
 
 .btn-1{
-    width: clamp(80px, 12vw, 140px);
-    font-size: clamp(1em, 1.3em, 2em);
-    
+    width: clamp(80px, 14vw, 140px);
     border-radius: 20px;
-    padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 20px);
 }
 .btn-2{
     width: clamp(80px, 10vw, 100px);
-    font-size: clamp(1em, 1.3em, 2em);
     border-radius: 20px;
-    padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 20px);
 }
 
 body{
@@ -42,7 +53,7 @@ body{
     height: 100vh;
 
     font-size: clamp(10px, 4vw, 20px);
-
+    background-color: var(--fresh-cream);
 }
 .wrapper{
     margin: auto;
@@ -51,7 +62,6 @@ body{
     max-width: 960px;
 
     padding: 0px 4vw;
-    border: 1px solid #000;
     border-radius: 20px;
 }
 
@@ -59,8 +69,7 @@ body{
 .header{
     display: flex;
     flex-direction: column;
-
-    border: 1px solid #000;
+    background-color: var(--forest-green);  
     border-radius: 20px;
 }
 
@@ -69,6 +78,7 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+
     padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 20px);
     font-size: clamp(1em, 1.2em, 1.4em);
 }
@@ -80,6 +90,7 @@ body{
     width: 10%;
     border-radius: 5%;
     border: 1px solid #000;
+    background-color: #FEFCF6;
     padding: clamp(6px, 1vw, 5px) clamp(10px, 2vw, 10px);
     position: relative;
     z-index: 1;
@@ -93,6 +104,7 @@ body{
     right: calc(0% - var(--position-right));
     top:  40%;
     position: absolute;
+    background-color: #FEFCF6;
     
     border-radius: 5%;
     border: 0.5px solid #000;
@@ -119,13 +131,6 @@ body{
     padding: clamp(10px, 2vw, 15px) 0;
 
     display: flex;
+    justify-content:center;
     gap: 2vw;
 }
-
-.tab-btn:hover{
-    background-color: azure;
-}
-.tab-btn:active{
-
-}
-
