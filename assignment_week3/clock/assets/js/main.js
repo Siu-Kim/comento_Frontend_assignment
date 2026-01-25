@@ -36,14 +36,8 @@ async function setupEventListeners(){
         }
 
         const action = target.dataset.action;
-        switch(action){
-            case "save-alarm": 
-                handleAlarmEvents(action, target);
-                break;
-            case "delete-alarm":
-                handleAlarmEvents(action, target);
-                break;
-        }
+        handleAlarmEvents(action, target);
+
     })
 }
 
@@ -70,7 +64,7 @@ function handleAlarmEvents(action, target){
 
         alarmManager.deleteAlarm(alarmId);
         console.log(alarmManager.alarmSlot);
-        renderAlarmUI(action);
+        renderAlarmUI();
     }
 }
 

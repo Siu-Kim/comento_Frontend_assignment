@@ -31,7 +31,7 @@ class AlarmManager{
     }
 
     checkAlarms(currentTime){
-        return this.alarmSlot.find(alarm => alarm.time === currentTime && !isRinging);
+        return this.alarmSlot.find(alarm => {alarm.time === currentTime && !alarm.isRinging});
     }
 
     getAllAlarms(){
